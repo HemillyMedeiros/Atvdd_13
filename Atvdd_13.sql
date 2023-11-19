@@ -16,3 +16,11 @@ CREATE TABLE tb_higher_education(
     Grade INT
 );
 SELECT * FROM tb_higher_education;
+
+--3. copie os dados do arquivo .csv p/ sua tabela.
+COPY public.tb_higher_education (studendid, age, gender, hs_type, scholarship, work, activity, partner, salary, transport) 
+FROM 'C:\student_prediction.csv' 
+DELIMITER ',' CSV HEADER QUOTE '"' ESCAPE '"';
+
+
+

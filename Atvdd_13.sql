@@ -39,4 +39,40 @@ $$
 LANGUAGE plpgsql;
 
 select retorna_maiores_idade();
+----------------------------------------------------------------------
+-- CREATE OR REPLACE PROCEDURE retorna_maior_idade(OUT count_age INTEGER)
+-- LANGUAGE plpgsql
+-- AS $$
+-- BEGIN
+--   SELECT COUNT(age) INTO count_age FROM tb_higher_education;
+-- END;
+-- $$;
 
+-- CALL retorna_maior_idade(age);
+
+-- drop procedure retorna_maior_idade();
+
+--4.2 exibe o porcentual de estudantes de cada sexo.
+CREATE OR REPLACE FUNCTION retorna_sexo_estudantes()
+RETURNS INTEGER AS $$
+DECLARE 
+    count_gender_m INTEGER;
+    count_gender_f INTEGER;
+    total INTEGER;
+BEGIN
+    SELECT COUNT(gender) INTO count_gender_m FROM tb_higher_education
+    WHERE gender = 2;
+    RAISE NOTICE 'A quantidade de alunos do genero masculino é: %',count_gender_m;
+    SELECT COUNT(gender) INTO count_gender_f FROM tb_higher_education
+    WHERE gender = 1;
+    RAISE NOTICE 'A quantidade de alunos do genero feminino é: %',count_gender_f;
+    total := count_gender_f + count_gender_m;
+    RAISE NOTICE 'A porcentagem de alunos do genero masculino é: % %%',  count_gender_m * 100 / 145;
+    RAISE NOTICE 'A porcentagem de alunos do genero feminino é: % %%',  count_gender_f * 100 / 145;
+
+END;
+$$
+LANGUAGE plpgsql;
+
+
+SELECT retorna_sexo_estudantes();

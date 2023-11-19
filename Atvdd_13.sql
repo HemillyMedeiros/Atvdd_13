@@ -22,5 +22,21 @@ COPY public.tb_higher_education (studendid, age, gender, hs_type, scholarship, w
 FROM 'C:\student_prediction.csv' 
 DELIMITER ',' CSV HEADER QUOTE '"' ESCAPE '"';
 
+--4- Escreva os seguintes stored procedures (incluindo um bloco anônimo de teste para cada
+um):
+--4.1- Exibe o número de estudantes maiores de idade.
+CREATE OR REPLACE FUNCTION retorna_maiores_idade()
+RETURNS INTEGER AS
+$$
+DECLARE
+  count_value INTEGER;
+BEGIN
+  SELECT COUNT(age) INTO count_value FROM tb_higher_education
+  where age = 1 or age = 2 or age = 3;
+  RAISE NOTICE 'A quatidade de estudantes maiores de idades é: %',  count_value;
+END;
+$$
+LANGUAGE plpgsql;
 
+select retorna_maiores_idade();
 

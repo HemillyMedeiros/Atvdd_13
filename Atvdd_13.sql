@@ -161,3 +161,60 @@ end;
 $$
 
 CALL notas_por_sexo2(2);
+
+--5.1 Escreva as seguintes functions
+CREATE OR REPLACE PROCEDURE calcular_percentual_notas(
+  IN sexo_param INTEGER,
+  OUT percentual_grade1 FLOAT,
+  OUT percentual_grade2 FLOAT,
+  OUT percentual_grade3 FLOAT,
+  OUT percentual_grade4 FLOAT,
+  OUT percentual_grade5 FLOAT,
+  OUT percentual_grade6 FLOAT,
+  OUT percentual_grade7 FLOAT,
+  OUT percentual_grade8 FLOAT
+)
+AS $$
+DECLARE 
+    total_estudantes INTEGER;
+BEGIN
+    SELECT COUNT(*) INTO total_estudantes FROM tb_higher_education WHERE gender = sexo_param;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade1
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 1;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade2
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 2;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade3
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 3;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade4
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 4;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade5
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 5;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade6
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 6;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade7
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 7;
+    
+    SELECT 
+        (COUNT(*) * 100.0) / total_estudantes INTO percentual_grade8
+        FROM tb_higher_education WHERE gender = sexo_param AND grade = 8;
+    
+END;
+$$ LANGUAGE plpgsql;
+
+
+CALL calcular_percentual_notas(Gender);
+CALL calcular_percentual_notas(1);

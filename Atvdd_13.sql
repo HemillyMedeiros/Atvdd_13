@@ -76,3 +76,88 @@ LANGUAGE plpgsql;
 
 
 SELECT retorna_sexo_estudantes();
+
+---bloco anonimo
+DROP PROCEDURE notas_por_sexo();
+CREATE OR REPLACE PROCEDURE notas_por_sexo(IN gender INT, INOUT Fail INT, INOUT DD INT, INOUT DC INT, INOUT CC INT, INOUT CB INT, INOUT BB INT, INOUT BA INT, INOUT AA INT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    SELECT COUNT(grade) INTO Fail FROM tb_higher_education
+    where grade = 0;
+    SELECT COUNT(grade) INTO DD FROM tb_higher_education
+    where grade = 1;
+    SELECT COUNT(grade) INTO DC FROM tb_higher_education
+    where grade = 2;
+    SELECT COUNT(grade) INTO CC FROM tb_higher_education
+    where grade = 3;
+    SELECT COUNT(grade) INTO CB FROM tb_higher_education
+    where grade = 4;
+    SELECT COUNT(grade) INTO BB FROM tb_higher_education
+    where grade = 5;
+    SELECT COUNT(grade) INTO BA FROM tb_higher_education
+    where grade = 6;
+    SELECT COUNT(grade) INTO AA FROM tb_higher_education
+    where grade = 7;
+    
+    RAISE NOTICE '%', Fail;
+    RAISE NOTICE '%', DD;
+    RAISE NOTICE '%', DC;
+    RAISE NOTICE '%', CC;
+    RAISE NOTICE '%', BC;
+    RAISE NOTICE '%', BB;
+    RAISE NOTICE '%', BA;
+    RAISE NOTICE '%', AA;
+    
+    
+END;$$
+
+
+CALL notas_por_sexo(1);
+CALL notas_por_sexo(2);
+
+--4.3 Recebe um sexo como parâmetro em modo IN 
+CREATE OR REPLACE PROCEDURE notas_por_sexo2(IN gender INT, INOUT Fail INT, INOUT DD INT, INOUT DC INT, INOUT CC INT, INOUT CB INT, INOUT BB INT, INOUT BA INT, INOUT AA INT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    SELECT COUNT(*) INTO Fail FROM tb_higher_education
+    where grade = 0;
+    SELECT COUNT(*) INTO DD FROM tb_higher_education
+    where grade = 1;
+    SELECT COUNT(*) INTO DC FROM tb_higher_education
+    where grade = 2;
+    SELECT COUNT(*) INTO CC FROM tb_higher_education
+    where grade = 3;
+    SELECT COUNT(*) INTO CB FROM tb_higher_education
+    where grade = 4;
+    SELECT COUNT(*) INTO BB FROM tb_higher_education
+    where grade = 5;
+    SELECT COUNT(*) INTO BA FROM tb_higher_education
+    where grade = 6;
+    SELECT COUNT(*) INTO AA FROM tb_higher_education
+    where grade = 7;
+    
+    RAISE NOTICE '%', Fail;
+    RAISE NOTICE '%', DD;
+    RAISE NOTICE '%', DC;
+    RAISE NOTICE '%', CC;
+    RAISE NOTICE '%', BC;
+    RAISE NOTICE '%', BB;
+    RAISE NOTICE '%', BA;
+    RAISE NOTICE '%', AA;
+    
+    
+END;$$
+
+DO
+$$
+declare
+    gender int := 1;
+begin
+    call notas_por_sexo2(Gender);
+    raise notice'%', gender;
+end;
+$$
+
+CALL notas_por_sexo2(2);
